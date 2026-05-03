@@ -1,0 +1,797 @@
+import base64
+
+with open('profile_photo.jpg','rb') as f:
+    PHOTO_B64 = base64.b64encode(f.read()).decode()
+
+HTML = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yaseen Syed Ali | Process & Chemical Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0f1a;--surface:#111827;--surface2:#1a2438;--surface3:#0f1a2e;
+  --accent:#00d4aa;--accent2:#3b82f6;--accent3:#f59e0b;--accent4:#e879f9;
+  --text:#e8edf5;--text-muted:#8899bb;
+  --border:rgba(0,212,170,0.15);--glow:rgba(0,212,170,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+
+/* Cursor */
+.cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s ease;mix-blend-mode:screen}
+.cursor-trail{width:32px;height:32px;border:1.5px solid var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .18s ease,opacity .3s;opacity:.4}
+
+/* Noise */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:.4}
+
+/* Lang toggle */
+.lang-toggle{position:fixed;top:20px;right:24px;z-index:1000;display:flex;border-radius:24px;overflow:hidden;border:1px solid var(--border);background:var(--surface)}
+.lang-btn{padding:6px 16px;font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;border:none;background:transparent;color:var(--text-muted);transition:all .3s;letter-spacing:1px}
+.lang-btn.active{background:var(--accent);color:#000;font-weight:700}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 5vw;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(10,15,26,.95),transparent);backdrop-filter:blur(8px)}
+.nav-logo{font-family:'Space Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:2px}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:11px;color:var(--text-muted);text-decoration:none;letter-spacing:1.5px;text-transform:uppercase;transition:color .3s;font-family:'Space Mono',monospace;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 5vw 60px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(0,212,170,.04) 0%,transparent 70%),radial-gradient(ellipse 50% 80% at 20% 80%,rgba(59,130,246,.05) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(0,212,170,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,170,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 80%)}
+.hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;width:100%;max-width:1200px;margin:0 auto}
+.hero-text{max-width:680px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.25);border-radius:20px;padding:5px 14px;margin-bottom:24px;font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;animation:fadeInDown .8s ease both}
+.badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(42px,6vw,80px);font-weight:900;line-height:1;margin-bottom:16px;animation:fadeInUp .9s ease .1s both}
+.hero-name span{color:var(--accent)}
+.hero-title{font-family:'Space Mono',monospace;font-size:clamp(13px,1.5vw,16px);color:var(--accent2);letter-spacing:3px;text-transform:uppercase;margin-bottom:24px;animation:fadeInUp .9s ease .2s both}
+.hero-desc{font-size:16px;line-height:1.75;color:var(--text-muted);margin-bottom:32px;max-width:560px;animation:fadeInUp .9s ease .3s both}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;animation:fadeInUp .9s ease .4s both}
+.tag{padding:5px 14px;border-radius:20px;font-size:12px;font-family:'Space Mono',monospace;border:1px solid var(--border);color:var(--text-muted);background:var(--glow);letter-spacing:.5px;transition:all .3s}
+.tag:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,212,170,.1)}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;animation:fadeInUp .9s ease .5s both}
+.btn-primary{padding:12px 28px;background:var(--accent);color:#000;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .3s;letter-spacing:.5px;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:#00f0c3;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,170,.3)}
+.btn-outline{padding:12px 28px;background:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .3s;letter-spacing:.5px;display:inline-flex;align-items:center;gap:8px}
+.btn-outline:hover{background:rgba(0,212,170,.08);transform:translateY(-2px)}
+.hero-photo-wrap{position:relative;animation:fadeIn 1s ease .3s both;flex-shrink:0}
+.hero-photo-ring{width:260px;height:260px;border-radius:50%;border:2px solid rgba(0,212,170,.3);padding:6px;position:relative}
+.hero-photo-ring::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px dashed rgba(0,212,170,.2);animation:spin 20s linear infinite}
+.hero-photo-ring::after{content:'';position:absolute;inset:-18px;border-radius:50%;border:1px dashed rgba(59,130,246,.15);animation:spin 35s linear infinite reverse}
+.hero-photo{width:100%;height:100%;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:50%}
+.photo-glow{position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,170,.12) 0%,transparent 70%);z-index:-1}
+.status-badge{position:absolute;bottom:10px;right:0;background:var(--surface);border:1px solid rgba(0,212,170,.3);border-radius:20px;padding:6px 14px;font-size:11px;font-family:'Space Mono',monospace;color:var(--accent);white-space:nowrap;display:flex;align-items:center;gap:6px}
+
+/* Sections */
+section{padding:90px 5vw;position:relative}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:80px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);font-weight:700;margin-bottom:48px;line-height:1.2}
+.section-title span{color:var(--accent)}
+
+/* About */
+#about{background:var(--surface)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.about-text p{font-size:16px;line-height:1.8;color:var(--text-muted);margin-bottom:20px}
+.about-text p strong{color:var(--text)}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;transition:all .3s}
+.stat-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.stat-number{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--accent);line-height:1}
+.stat-label{font-size:12px;color:var(--text-muted);margin-top:6px;letter-spacing:.5px}
+.about-info{display:flex;flex-direction:column;gap:16px}
+.info-item{display:flex;align-items:flex-start;gap:14px;padding:16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);transition:all .3s}
+.info-item:hover{border-color:var(--accent)}
+.info-icon{font-size:20px;flex-shrink:0}
+.info-label{font-size:11px;color:var(--text-muted);letter-spacing:1px;margin-bottom:2px;font-family:'Space Mono',monospace}
+.info-value{font-size:14px;color:var(--text);font-weight:500}
+
+/* Skills */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.skill-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;transition:all .4s;position:relative;overflow:hidden}
+.skill-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.skill-card:hover::before{transform:scaleX(1)}
+.skill-card:hover{border-color:rgba(0,212,170,.3);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
+.skill-card-icon{font-size:32px;margin-bottom:14px}
+.skill-card-title{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill-tag{padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--text-muted);transition:all .3s}
+.skill-tag:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ===== ENHANCED EXPERIENCE TIMELINE ===== */
+#experience{background:var(--surface)}
+.timeline{position:relative;padding-left:40px}
+.timeline::before{content:'';position:absolute;left:6px;top:12px;bottom:12px;width:2px;background:linear-gradient(to bottom,var(--accent),var(--accent2),rgba(59,130,246,.1));border-radius:2px}
+
+.timeline-item{position:relative;margin-bottom:64px;opacity:0;transform:translateX(-30px);transition:opacity .7s ease,transform .7s ease}
+.timeline-item.tl-visible{opacity:1;transform:translateX(0)}
+
+.timeline-dot{position:absolute;left:-46px;top:10px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 0 3px rgba(0,212,170,.25),0 0 20px rgba(0,212,170,.4);z-index:2}
+.timeline-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(0,212,170,.3);animation:ringPulse 2.5s ease-out infinite}
+
+.tl-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:32px;transition:all .4s;position:relative;overflow:hidden}
+.tl-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--accent),var(--accent2));border-radius:3px 0 0 3px}
+.tl-card:hover{border-color:rgba(0,212,170,.3);transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.4)}
+
+.tl-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:6px;flex-wrap:wrap}
+.tl-date{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:1px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:20px;padding:4px 12px;white-space:nowrap}
+.tl-role{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.tl-org{font-size:14px;color:var(--accent);margin-bottom:4px;font-weight:600}
+.tl-loc{font-size:12px;color:var(--text-muted);margin-bottom:20px;font-family:'Space Mono',monospace;letter-spacing:.5px}
+
+.tl-summary{font-size:15px;color:var(--text-muted);line-height:1.75;margin-bottom:24px;padding:16px;background:rgba(0,212,170,.04);border-left:2px solid var(--accent);border-radius:0 8px 8px 0}
+.tl-summary strong{color:var(--text)}
+
+.tl-tasks-title{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px}
+.tl-tasks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.tl-task{background:var(--surface3);border:1px solid var(--border);border-radius:10px;padding:16px;transition:all .3s;position:relative;overflow:hidden}
+.tl-task::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .3s}
+.tl-task:hover::before{transform:scaleX(1)}
+.tl-task:hover{border-color:rgba(0,212,170,.3);background:rgba(0,212,170,.04)}
+.tl-task-icon{font-size:20px;margin-bottom:8px}
+.tl-task-label{font-size:11px;font-family:'Space Mono',monospace;color:var(--accent);letter-spacing:1px;margin-bottom:4px}
+.tl-task-desc{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+.tl-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tl-tool{padding:4px 12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:20px;font-size:11px;color:var(--accent2);font-family:'Space Mono',monospace}
+
+/* Education */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.edu-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;transition:all .4s;position:relative;overflow:hidden}
+.edu-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transform:scaleX(0);transition:transform .4s}
+.edu-card:hover::after{transform:scaleX(1)}
+.edu-card:hover{border-color:rgba(0,212,170,.3);transform:translateY(-4px)}
+.edu-degree{font-size:11px;color:var(--accent);font-family:'Space Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.edu-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:6px}
+.edu-uni{font-size:13px;color:var(--text-muted);margin-bottom:4px}
+.edu-date{font-size:12px;color:var(--accent2);font-family:'Space Mono',monospace;margin-bottom:14px}
+.edu-courses{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+/* ===== ENHANCED PROJECTS ===== */
+#projects{background:var(--surface)}
+
+/* Thesis deep-dive */
+.thesis-wrap{margin-bottom:48px}
+.thesis-card{background:var(--surface2);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .4s}
+.thesis-card:hover{border-color:rgba(0,212,170,.3);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+
+.thesis-hero{padding:40px 40px 32px;background:linear-gradient(135deg,rgba(0,212,170,.06) 0%,rgba(59,130,246,.04) 100%);position:relative;overflow:hidden}
+.thesis-hero::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,170,.08),transparent 70%)}
+.thesis-badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.thesis-badge{padding:4px 14px;border-radius:20px;font-size:11px;font-family:'Space Mono',monospace;letter-spacing:1px}
+.thesis-badge.primary{background:rgba(0,212,170,.15);border:1px solid rgba(0,212,170,.35);color:var(--accent)}
+.thesis-badge.secondary{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--accent3)}
+.thesis-badge.tertiary{background:rgba(232,121,249,.1);border:1px solid rgba(232,121,249,.3);color:var(--accent4)}
+.thesis-title{font-family:'Playfair Display',serif;font-size:clamp(18px,2.5vw,26px);font-weight:900;line-height:1.3;margin-bottom:16px}
+.thesis-subtitle{font-size:14px;color:var(--text-muted);line-height:1.7;max-width:700px}
+
+.thesis-body{padding:0 40px 40px}
+
+.thesis-overview{font-size:15px;color:var(--text-muted);line-height:1.8;margin:28px 0;padding:20px 24px;background:rgba(0,212,170,.04);border-left:3px solid var(--accent);border-radius:0 10px 10px 0}
+.thesis-overview strong{color:var(--text)}
+
+.thesis-phases-title{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px}
+.thesis-phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px}
+.phase-card{background:var(--surface3);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all .4s;cursor:default;position:relative;overflow:hidden}
+.phase-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,170,.05),transparent);opacity:0;transition:opacity .3s}
+.phase-card:hover::after{opacity:1}
+.phase-card:hover{border-color:rgba(0,212,170,.35);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
+.phase-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:rgba(0,212,170,.15);line-height:1;margin-bottom:4px}
+.phase-icon{font-size:22px;margin-bottom:10px}
+.phase-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.phase-desc{font-size:13px;color:var(--text-muted);line-height:1.6}
+
+.thesis-methods-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px}
+.method-box{background:var(--surface3);border:1px solid var(--border);border-radius:12px;padding:24px}
+.method-box-title{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent2);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.method-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.method-list li{font-size:13px;color:var(--text-muted);padding-left:18px;position:relative;line-height:1.5}
+.method-list li::before{content:"▸";position:absolute;left:0;color:var(--accent);font-size:11px}
+
+.thesis-results{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.result-card{background:linear-gradient(135deg,var(--surface3),rgba(0,212,170,.03));border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:all .3s}
+.result-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.result-value{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--accent);line-height:1}
+.result-unit{font-size:13px;color:var(--accent);opacity:.7}
+.result-label{font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.4}
+
+.thesis-impact{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:24px;margin-bottom:0}
+.thesis-impact-title{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.thesis-impact p{font-size:14px;color:var(--text-muted);line-height:1.75}
+.thesis-impact strong{color:var(--text)}
+
+/* Publication card */
+.pub-card{background:var(--surface2);border:1px solid rgba(245,158,11,.25);border-radius:16px;padding:32px;margin-top:0;transition:all .4s;position:relative;overflow:hidden}
+.pub-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent3),var(--accent4))}
+.pub-card:hover{border-color:rgba(245,158,11,.4);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.pub-label{font-size:10px;font-family:'Space Mono',monospace;color:var(--accent3);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.pub-title{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:12px}
+.pub-journal{font-size:13px;color:var(--text-muted);font-style:italic;margin-bottom:16px}
+.pub-doi-link{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.35);border-radius:8px;color:var(--accent3);text-decoration:none;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.5px;transition:all .3s}
+.pub-doi-link:hover{background:rgba(245,158,11,.2);border-color:var(--accent3);transform:translateX(4px);box-shadow:0 4px 16px rgba(245,158,11,.2)}
+.pub-doi-link svg{width:14px;height:14px;flex-shrink:0}
+
+/* Languages */
+.lang-grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.lang-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;text-align:center;transition:all .3s}
+.lang-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.lang-flag{font-size:40px;margin-bottom:12px}
+.lang-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:4px}
+.lang-level{font-size:12px;color:var(--accent);font-family:'Space Mono',monospace;margin-bottom:14px}
+.lang-bar-wrap{background:var(--surface2);border-radius:4px;height:4px;overflow:hidden}
+.lang-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1.5s ease;width:0%}
+
+/* Contact */
+#contact{background:var(--surface)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.contact-intro{font-size:16px;color:var(--text-muted);line-height:1.8;margin-bottom:32px}
+.contact-links{display:flex;flex-direction:column;gap:14px}
+.contact-link{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);transition:all .3s}
+.contact-link:hover{border-color:var(--accent);transform:translateX(4px)}
+.contact-link-icon{font-size:18px}
+.contact-link-text{font-size:14px}
+.contact-link-sub{font-size:11px;color:var(--text-muted);font-family:'Space Mono',monospace;margin-top:2px}
+.availability-box{background:linear-gradient(135deg,rgba(0,212,170,.08),rgba(59,130,246,.06));border:1px solid rgba(0,212,170,.25);border-radius:12px;padding:32px}
+.avail-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:16px}
+.avail-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-muted)}
+.avail-item:last-child{border-bottom:none}
+.avail-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;flex-shrink:0}
+
+footer{padding:32px 5vw;text-align:center;border-top:1px solid var(--border);font-size:13px;color:var(--text-muted);font-family:'Space Mono',monospace}
+
+/* Animations */
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,.5)}50%{box-shadow:0 0 0 6px rgba(0,212,170,0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes ringPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.2);opacity:0}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+.fade-in-section{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.fade-in-section.visible{opacity:1;transform:translateY(0)}
+
+/* DE hidden by default */
+[data-de]{display:none}
+body.de [data-en]{display:none}
+body.de [data-de]{display:block}
+body.de span[data-de]{display:inline}
+body.de span[data-en]{display:none}
+
+@media(max-width:768px){
+  .hero-content{grid-template-columns:1fr}
+  .hero-photo-wrap{display:none}
+  .about-grid,.contact-grid,.tl-tasks,.thesis-methods-row{grid-template-columns:1fr}
+  .thesis-results{grid-template-columns:1fr 1fr}
+  nav .nav-links{display:none}
+  .lang-toggle{top:14px;right:14px}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang(\'en\')" id="btn-en">EN</button>
+  <button class="lang-btn" onclick="setLang(\'de\')" id="btn-de">DE</button>
+</div>
+
+<nav>
+  <div class="nav-logo">YSA</div>
+  <ul class="nav-links">
+    <li><a href="#about" data-en>About</a><a href="#about" data-de>Über mich</a></li>
+    <li><a href="#skills" data-en>Skills</a><a href="#skills" data-de>Fähigkeiten</a></li>
+    <li><a href="#experience" data-en>Experience</a><a href="#experience" data-de>Erfahrung</a></li>
+    <li><a href="#education" data-en>Education</a><a href="#education" data-de>Bildung</a></li>
+    <li><a href="#projects" data-en>Projects</a><a href="#projects" data-de>Projekte</a></li>
+    <li><a href="#contact" data-en>Contact</a><a href="#contact" data-de>Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span data-en>Available · Open to Relocation in Germany</span>
+        <span data-de>Verfügbar · Umzugsbereit in Deutschland</span>
+      </div>
+      <h1 class="hero-name">Yaseen<br><span>Syed Ali</span></h1>
+      <p class="hero-title" data-en>Process &amp; Chemical Engineer</p>
+      <p class="hero-title" data-de>Verfahrens- &amp; Chemieingenieur</p>
+      <p class="hero-desc" data-en>Master\'s student in Process Engineering with expertise in thermodynamics, reaction engineering, and process simulation using Aspen Plus. Passionate about sustainable processes, pharmaceutical engineering, and driving innovation through data-driven optimisation.</p>
+      <p class="hero-desc" data-de>Masterstudent der Verfahrenstechnik mit Expertise in Thermodynamik, Reaktionstechnik und Prozesssimulation mit Aspen Plus. Leidenschaft für nachhaltige Prozesse, pharmazeutische Technik und datengetriebene Optimierung.</p>
+      <div class="hero-tags">
+        <span class="tag">Aspen Plus</span><span class="tag">Process Design</span><span class="tag">Thermodynamics</span>
+        <span class="tag">Reaction Engineering</span><span class="tag">Multiphase Flow</span><span class="tag">Process Optimisation</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary"><span data-en>💼 Hire Me</span><span data-de>💼 Kontaktieren</span></a>
+        <a href="https://doi.org/10.1016/j.dwt.2024.100636" target="_blank" rel="noopener" class="btn-outline"><span data-en>🔬 View Research</span><span data-de>🔬 Forschung ansehen</span></a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap" style="animation:float 6s ease-in-out infinite">
+      <div class="hero-photo-ring">
+        <div class="hero-photo">
+          <img src="data:image/jpeg;base64,''' + PHOTO_B64 + '''" alt="Yaseen Syed Ali">
+        </div>
+        <div class="photo-glow"></div>
+      </div>
+      <div class="status-badge"><span class="badge-dot"></span><span data-en>Seeking Internship / Working Student</span><span data-de>Suche Praktikum / Werkstudent</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner fade-in-section">
+    <p class="section-label" data-en>01 — About Me</p><p class="section-label" data-de>01 — Über mich</p>
+    <h2 class="section-title" data-en>Who I <span>Am</span></h2><h2 class="section-title" data-de>Wer ich <span>bin</span></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p data-en>I am <strong>Yaseen Syed Ali, Saifullah Mundusreen</strong>, a dedicated Process Engineering master\'s student at <strong>Offenburg University of Applied Sciences</strong>, currently on Erasmus exchange at the University of Warmia and Mazury in Olsztyn, Poland. My academic journey has taken me across three countries — India, Germany, and Malaysia — giving me a uniquely global engineering perspective.</p>
+        <p data-de>Ich bin <strong>Yaseen Syed Ali, Saifullah Mundusreen</strong>, Masterstudent der Verfahrenstechnik an der <strong>Hochschule Offenburg</strong>, derzeit im Erasmus-Austausch in Polen. Mein Weg führte mich durch drei Länder — Indien, Deutschland und Malaysia.</p>
+        <p data-en>With a <strong>Bachelor\'s in Chemical Engineering</strong>, a published research paper in wastewater treatment, and hands-on research experience at Kiel University, I bring both theoretical depth and practical laboratory expertise to every challenge.</p>
+        <p data-de>Mit einem <strong>Bachelor in Chemieingenieurwesen</strong>, einer Fachpublikation und praktischer Forschungserfahrung an der Universität Kiel bringe ich sowohl theoretische Tiefe als auch praktische Laborkompetenz mit.</p>
+        <p data-en>I am seeking a <strong>Working Student position (20 hrs/week)</strong> or <strong>Internship</strong> in Process or Chemical Engineering anywhere in Germany, fully open to relocation.</p>
+        <p data-de>Ich suche eine <strong>Werkstudentenstelle (20 Std./Woche)</strong> oder ein <strong>Praktikum</strong> im Bereich Verfahrens- oder Chemieingenieurwesen in ganz Deutschland.</p>
+        <div class="about-stats">
+          <div class="stat-card"><div class="stat-number">4+</div><div class="stat-label" data-en>Years in Engineering</div><div class="stat-label" data-de>Jahre Ingenieurwesen</div></div>
+          <div class="stat-card"><div class="stat-number">3</div><div class="stat-label" data-en>Countries Studied In</div><div class="stat-label" data-de>Länder studiert</div></div>
+          <div class="stat-card"><div class="stat-number">92%</div><div class="stat-label" data-en>Filtration Efficiency</div><div class="stat-label" data-de>Filtrationseffizienz</div></div>
+          <div class="stat-card"><div class="stat-number">1</div><div class="stat-label" data-en>Published Paper</div><div class="stat-label" data-de>Publikation</div></div>
+        </div>
+      </div>
+      <div class="about-info">
+        <div class="info-item"><span class="info-icon">📍</span><div><div class="info-label" data-en>Location</div><div class="info-label" data-de>Standort</div><div class="info-value" data-en>Offenburg, Germany · Open to relocation</div><div class="info-value" data-de>Offenburg, Deutschland · Umzugsbereit</div></div></div>
+        <div class="info-item"><span class="info-icon">🎓</span><div><div class="info-label">Status</div><div class="info-value" data-en>MSc Process Engineering Student</div><div class="info-value" data-de>MSc Verfahrenstechnik Student</div></div></div>
+        <div class="info-item"><span class="info-icon">🔍</span><div><div class="info-label" data-en>Seeking</div><div class="info-label" data-de>Suche</div><div class="info-value" data-en>Internship or Working Student (20h/week)</div><div class="info-value" data-de>Praktikum oder Werkstudent (20h/Woche)</div></div></div>
+        <div class="info-item"><span class="info-icon">📅</span><div><div class="info-label" data-en>Available From</div><div class="info-label" data-de>Verfügbar ab</div><div class="info-value">July 2026</div></div></div>
+        <div class="info-item"><span class="info-icon">🌍</span><div><div class="info-label" data-en>Visa</div><div class="info-label" data-de>Visum</div><div class="info-value" data-en>Student Visa – Germany</div><div class="info-value" data-de>Studentenvisum – Deutschland</div></div></div>
+        <div class="info-item"><span class="info-icon">✉️</span><div><div class="info-label">Email</div><div class="info-value">saifullayaseen@gmail.com</div></div></div>
+        <div class="info-item"><span class="info-icon">📞</span><div><div class="info-label" data-en>Phone</div><div class="info-label" data-de>Telefon</div><div class="info-value">+49 15222352062</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner fade-in-section">
+    <p class="section-label" data-en>02 — Technical Expertise</p><p class="section-label" data-de>02 — Technische Expertise</p>
+    <h2 class="section-title" data-en>Skills &amp; <span>Tools</span></h2><h2 class="section-title" data-de>Fähigkeiten &amp; <span>Werkzeuge</span></h2>
+    <div class="skills-grid">
+      <div class="skill-card"><div class="skill-card-icon">⚗️</div><div class="skill-card-title" data-en>Process Engineering</div><div class="skill-card-title" data-de>Verfahrenstechnik</div><div class="skill-tags"><span class="skill-tag">Process Design</span><span class="skill-tag">Equipment Design</span><span class="skill-tag">Pipeline Planning</span><span class="skill-tag">Process Optimisation</span><span class="skill-tag">Thermodynamics</span><span class="skill-tag">Fluid Mechanics</span><span class="skill-tag">Heat &amp; Mass Transfer</span><span class="skill-tag">Multiphase Flow</span><span class="skill-tag">Reaction Engineering</span><span class="skill-tag">Power to Gas</span><span class="skill-tag">Thermochemical Processes</span></div></div>
+      <div class="skill-card"><div class="skill-card-icon">💻</div><div class="skill-card-title" data-en>Software &amp; Simulation</div><div class="skill-card-title" data-de>Software &amp; Simulation</div><div class="skill-tags"><span class="skill-tag">Aspen Plus</span><span class="skill-tag">AutoCAD</span><span class="skill-tag">MATLAB</span><span class="skill-tag">Python</span><span class="skill-tag">LabVIEW</span><span class="skill-tag">OriginLab</span><span class="skill-tag">MS Excel</span><span class="skill-tag">MS Word</span><span class="skill-tag">MS PowerPoint</span></div></div>
+      <div class="skill-card"><div class="skill-card-icon">🔬</div><div class="skill-card-title" data-en>Laboratory &amp; Analytics</div><div class="skill-card-title" data-de>Labor &amp; Analytik</div><div class="skill-tags"><span class="skill-tag">SEM</span><span class="skill-tag">XRD</span><span class="skill-tag">FTIR</span><span class="skill-tag">EDS</span><span class="skill-tag">Wet Chemical Analysis</span><span class="skill-tag">Technical Cleanliness</span><span class="skill-tag">Contact Angle Measurement</span><span class="skill-tag">Surface Energy Determination</span><span class="skill-tag">Corrosion Testing</span><span class="skill-tag">Spin Coating</span><span class="skill-tag">Magneto-optical Microscopy</span></div></div>
+      <div class="skill-card"><div class="skill-card-icon">🧠</div><div class="skill-card-title" data-en>Soft Skills</div><div class="skill-card-title" data-de>Soft Skills</div><div class="skill-tags"><span class="skill-tag" data-en>Independent Working</span><span class="skill-tag" data-de>Selbstständiges Arbeiten</span><span class="skill-tag" data-en>Team Collaboration</span><span class="skill-tag" data-de>Teamarbeit</span><span class="skill-tag" data-en>Experimental Design</span><span class="skill-tag" data-de>Versuchsplanung</span><span class="skill-tag" data-en>Data Evaluation</span><span class="skill-tag" data-de>Datenauswertung</span><span class="skill-tag" data-en>Structured Reporting</span><span class="skill-tag" data-de>Strukturiertes Berichten</span><span class="skill-tag" data-en>Commitment</span><span class="skill-tag" data-de>Engagement</span></div></div>
+      <div class="skill-card"><div class="skill-card-icon">🌐</div><div class="skill-card-title" data-en>Languages</div><div class="skill-card-title" data-de>Sprachen</div>
+        <div class="lang-grid-cards" style="margin-top:8px">
+          <div class="lang-card"><div class="lang-flag">🇬🇧</div><div class="lang-name">English</div><div class="lang-level">Fluent / C1+</div><div class="lang-bar-wrap"><div class="lang-bar" data-width="90"></div></div></div>
+          <div class="lang-card"><div class="lang-flag">🇩🇪</div><div class="lang-name">Deutsch</div><div class="lang-level">B1 → B2</div><div class="lang-bar-wrap"><div class="lang-bar" data-width="55"></div></div></div>
+          <div class="lang-card"><div class="lang-flag">🇮🇳</div><div class="lang-name">Tamil</div><div class="lang-level" data-en>Native</div><div class="lang-level" data-de>Muttersprache</div><div class="lang-bar-wrap"><div class="lang-bar" data-width="100"></div></div></div>
+        </div>
+      </div>
+      <div class="skill-card"><div class="skill-card-icon">📜</div><div class="skill-card-title" data-en>Certificates</div><div class="skill-card-title" data-de>Zertifikate</div><div class="skill-tags"><span class="skill-tag">Microsoft Excel Essentials</span><span class="skill-tag">MATLAB Onramp</span><span class="skill-tag">Goethe German A1</span><span class="skill-tag">Natural Gas (Coursera)</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner fade-in-section">
+    <p class="section-label" data-en>03 — Work Experience</p><p class="section-label" data-de>03 — Berufserfahrung</p>
+    <h2 class="section-title" data-en>Professional <span>Journey</span></h2><h2 class="section-title" data-de>Beruflicher <span>Werdegang</span></h2>
+    <div class="timeline">
+
+      <!-- JOB 1 -->
+      <div class="timeline-item" id="tl1">
+        <div class="timeline-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role" data-en>Research Assistant – Working Student</div>
+              <div class="tl-role" data-de>Wissenschaftliche Hilfskraft – Werkstudent</div>
+              <div class="tl-org">Kiel University · Christian-Albrechts-Universität zu Kiel</div>
+              <div class="tl-loc">📍 Kiel, Germany</div>
+            </div>
+            <div class="tl-date">Dec 2024 – Sept 2025</div>
+          </div>
+
+          <div class="tl-summary" data-en>As a Research Assistant at one of Germany\'s top universities, I worked at the intersection of <strong>materials science, surface engineering, and experimental chemistry</strong>. My role spanned the full cycle of scientific work — from designing and executing experiments to analysing results and contributing to method development — within collaborative, high-precision research projects. The experience directly sharpened skills applicable to industrial process engineering, quality control, and analytical laboratory environments.</div>
+          <div class="tl-summary" data-de>Als wissenschaftliche Hilfskraft an einer der führenden deutschen Universitäten arbeitete ich an der Schnittstelle von <strong>Materialwissenschaft, Oberflächentechnik und experimenteller Chemie</strong>. Meine Tätigkeit umfasste den gesamten wissenschaftlichen Arbeitszyklus — vom Design und der Durchführung von Experimenten bis hin zur Analyse von Ergebnissen und der Beitrag zur Methodenentwicklung.</div>
+
+          <div class="tl-tasks-title" data-en>Key Responsibilities &amp; Achievements</div>
+          <div class="tl-tasks-title" data-de>Aufgaben &amp; Leistungen</div>
+          <div class="tl-tasks">
+            <div class="tl-task">
+              <div class="tl-task-icon">🧪</div>
+              <div class="tl-task-label" data-en>Surface Functionalization</div>
+              <div class="tl-task-label" data-de>Oberflächenfunktionalisierung</div>
+              <div class="tl-task-desc" data-en>Performed surface functionalization and material modification to optimise micro-scale particle distribution across polymer substrates. Applied contact angle measurement and surface energy determination to quantify wettability changes before and after treatment — skills directly transferable to quality assurance in industrial coating and corrosion prevention processes.</div>
+              <div class="tl-task-desc" data-de>Durchführung von Oberflächenfunktionalisierung und Materialmodifikation zur Optimierung der Partikelverteilung im Mikromaßstab. Anwendung von Kontaktwinkelmessung und Oberflächenenergiebestimmung zur Quantifizierung von Benetzbarkeitsänderungen.</div>
+            </div>
+            <div class="tl-task">
+              <div class="tl-task-icon">🔭</div>
+              <div class="tl-task-label" data-en>Polymer System Characterisation</div>
+              <div class="tl-task-label" data-de>Polymersystem-Charakterisierung</div>
+              <div class="tl-task-desc" data-en>Characterised multilayer polymer systems using <strong>magneto-optical microscopy</strong> to analyse reaction systems and particle behaviour in real time. The insights supported technical cleanliness evaluations and process quality assessments — directly analogous to technical cleanliness analysis of industrial components (e.g., rolling bearings, automotive parts).</div>
+              <div class="tl-task-desc" data-de>Charakterisierung von Mehrschicht-Polymersystemen mittels magnetooptischer Mikroskopie zur Analyse von Reaktionssystemen und Partikelverhalten in Echtzeit. Die Erkenntnisse unterstützten Technische Sauberkeitsanalysen und Prozessqualitätsbewertungen.</div>
+            </div>
+            <div class="tl-task">
+              <div class="tl-task-icon">📊</div>
+              <div class="tl-task-label" data-en>Magnetic Hysteresis &amp; Structure Analysis</div>
+              <div class="tl-task-label" data-de>Magnetische Hysterese &amp; Strukturanalyse</div>
+              <div class="tl-task-desc" data-en>Conducted <strong>magnetic hysteresis measurements</strong> under precisely controlled experimental parameters. Interpreted structure–property relationships to support material optimisation strategies and contributed to the development of novel chemical-physical analysis methods — demonstrating strong analytical reasoning and experimental design capability.</div>
+              <div class="tl-task-desc" data-de>Durchführung von magnetischen Hysteresemessungen unter kontrollierten Parametern. Interpretation von Struktur-Eigenschafts-Beziehungen zur Unterstützung von Materialoptimierungsstrategien und Beitrag zur Entwicklung chemisch-physikalischer Analysemethoden.</div>
+            </div>
+            <div class="tl-task">
+              <div class="tl-task-icon">⚗️</div>
+              <div class="tl-task-label" data-en>Wet Chemical &amp; Instrumental Analysis</div>
+              <div class="tl-task-label" data-de>Nasschemische &amp; Instrumentelle Analyse</div>
+              <div class="tl-task-desc" data-en>Independently planned and executed small-scale experiments within <strong>optimisation projects</strong>. Performed wet chemical and instrumental analysis of production chemicals, systematically evaluated results through structured data interpretation, and produced detailed technical reports — demonstrating the independent working style and commitment essential for industrial R&amp;D roles.</div>
+              <div class="tl-task-desc" data-de>Selbstständige Planung und Durchführung von Kleinversuchen in Optimierungsprojekten. Nasschemische und instrumentelle Analyse von Produktionschemikalien, systematische Datenauswertung und Erstellung technischer Berichte.</div>
+            </div>
+          </div>
+
+          <div class="tl-tasks-title" data-en>Tools &amp; Techniques Used</div>
+          <div class="tl-tasks-title" data-de>Verwendete Methoden &amp; Werkzeuge</div>
+          <div class="tl-tools">
+            <span class="tl-tool">SEM</span><span class="tl-tool">XRD</span><span class="tl-tool">FTIR</span><span class="tl-tool">EDS</span>
+            <span class="tl-tool">Magneto-optical Microscopy</span><span class="tl-tool">Contact Angle Measurement</span>
+            <span class="tl-tool">Surface Energy Determination</span><span class="tl-tool">Wet Chemical Analysis</span>
+            <span class="tl-tool">Corrosion Testing</span><span class="tl-tool">Spin Coating</span><span class="tl-tool">OriginLab</span><span class="tl-tool">LabVIEW</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic experience note -->
+      <div class="timeline-item" id="tl2">
+        <div class="timeline-dot" style="background:var(--accent2)"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role" data-en>Erasmus Exchange Student</div>
+              <div class="tl-role" data-de>Erasmus Austauschstudent</div>
+              <div class="tl-org">University of Warmia and Mazury</div>
+              <div class="tl-loc">📍 Olsztyn, Poland</div>
+            </div>
+            <div class="tl-date">Feb 2026 – Jun 2026</div>
+          </div>
+          <div class="tl-summary" data-en>Selected for the <strong>Erasmus+ Mobility Programme</strong> as part of the MSc Process Engineering degree at Offenburg University. Studying advanced engineering topics in an international academic environment, developing cross-cultural communication skills, and broadening exposure to European engineering approaches and academic research methods.</div>
+          <div class="tl-summary" data-de>Ausgewählt für das <strong>Erasmus+ Mobilitätsprogramm</strong> im Rahmen des MSc-Studiums an der Hochschule Offenburg. Studium fortgeschrittener Ingenieurthemen in einem internationalen akademischen Umfeld, Entwicklung interkultureller Kommunikationsfähigkeiten.</div>
+          <div class="tl-tools">
+            <span class="tl-tool">International Collaboration</span><span class="tl-tool">Cross-cultural Communication</span>
+            <span class="tl-tool">European Engineering Standards</span><span class="tl-tool">Advanced Process Engineering</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange at Malaysia -->
+      <div class="timeline-item" id="tl3">
+        <div class="timeline-dot" style="background:var(--accent3)"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role" data-en>International Exchange Student</div>
+              <div class="tl-role" data-de>Internationaler Austauschstudent</div>
+              <div class="tl-org">University Malaysia Pahang</div>
+              <div class="tl-loc">📍 Malaysia</div>
+            </div>
+            <div class="tl-date">Oct 2022 – Feb 2023</div>
+          </div>
+          <div class="tl-summary" data-en>Participated in an international <strong>student exchange programme</strong> during the Bachelor\'s degree in Chemical Engineering. Gained exposure to South-East Asian engineering practices, expanded technical vocabulary in English, and developed adaptability and cultural intelligence — qualities that distinguish globally minded engineers.</div>
+          <div class="tl-summary" data-de>Teilnahme an einem internationalen <strong>Studentenaustauschprogramm</strong> während des Bachelorstudiums in Chemieingenieurwesen. Einblick in südostasiatische Ingenieursansätze, Ausbau technischer Englischkenntnisse und Entwicklung interkultureller Intelligenz.</div>
+          <div class="tl-tools">
+            <span class="tl-tool">Chemical Engineering</span><span class="tl-tool">International Exposure</span>
+            <span class="tl-tool">English Proficiency</span><span class="tl-tool">Adaptability</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner fade-in-section">
+    <p class="section-label" data-en>04 — Education</p><p class="section-label" data-de>04 — Bildung</p>
+    <h2 class="section-title" data-en>Academic <span>Background</span></h2><h2 class="section-title" data-de>Akademischer <span>Hintergrund</span></h2>
+    <div class="edu-grid">
+      <div class="edu-card"><div class="edu-degree">Master of Science</div><div class="edu-title" data-en>Process Engineering</div><div class="edu-title" data-de>Verfahrenstechnik</div><div class="edu-uni">Offenburg University of Applied Sciences</div><div class="edu-date">Oct 2025 – Current</div><div class="edu-courses" data-en><strong>Coursework:</strong> Power to Gas · Thermochemical Processes · Multiphase Flow · Modelling &amp; Simulation · Process Control Engineering<br><br>🌍 Erasmus at University of Warmia &amp; Mazury, Olsztyn (Feb–Jun 2026)</div><div class="edu-courses" data-de><strong>Fächer:</strong> Power to Gas · Thermochemische Prozesse · Mehrphasenströmung · Modellierung &amp; Simulation · Prozessleittechnik<br><br>🌍 Erasmus an der Uni Ermland-Masuren, Olsztyn (Feb–Jun 2026)</div></div>
+      <div class="edu-card"><div class="edu-degree">Master of Science</div><div class="edu-title" data-en>Materials Science &amp; Engineering</div><div class="edu-title" data-de>Materialwissenschaft &amp; Werkstofftechnik</div><div class="edu-uni">Kiel University (CAU)</div><div class="edu-date">Oct 2024 – Sep 2025</div><div class="edu-courses" data-en><strong>Coursework:</strong> Polymer Technology · Analytics · Thin Films · Electron Microscopy · Surface Technology</div><div class="edu-courses" data-de><strong>Fächer:</strong> Polymertechnologie · Analytik · Dünnschichttechnologie · Elektronenmikroskopie · Oberflächentechnologie</div></div>
+      <div class="edu-card"><div class="edu-degree">Bachelor of Technology</div><div class="edu-title" data-en>Chemical Engineering</div><div class="edu-title" data-de>Chemieingenieurwesen</div><div class="edu-uni">Kongu Engineering College, Erode, India</div><div class="edu-date">Oct 2020 – Apr 2024</div><div class="edu-courses" data-en><strong>Coursework:</strong> Organic &amp; Inorganic Chemistry · Chemical Reaction Engineering · Thermodynamics · Fluid Mechanics · Heat &amp; Mass Transfer · Mechanical Operation · Instrumental Analysis · Nano &amp; Composite Materials<br><br>🌏 Exchange at University Malaysia Pahang (Oct 2022 – Feb 2023)</div><div class="edu-courses" data-de><strong>Fächer:</strong> Organische &amp; Anorganische Chemie · Chemische Reaktionstechnik · Thermodynamik · Strömungslehre · Wärme- &amp; Stoffübertragung<br><br>🌏 Austausch an der Universität Malaysia Pahang (Okt 2022 – Feb 2023)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner fade-in-section">
+    <p class="section-label" data-en>05 — Projects &amp; Publications</p><p class="section-label" data-de>05 — Projekte &amp; Publikationen</p>
+    <h2 class="section-title" data-en>Research <span>Work</span></h2><h2 class="section-title" data-de>Forschungs<span>arbeit</span></h2>
+
+    <!-- THESIS DEEP DIVE -->
+    <div class="thesis-wrap">
+      <div class="thesis-card" id="bachelor-thesis">
+        <div class="thesis-hero">
+          <div class="thesis-badge-row">
+            <span class="thesis-badge primary" data-en>🎓 Bachelor Thesis · Mar 2024</span>
+            <span class="thesis-badge primary" data-de>🎓 Bachelorarbeit · Mär 2024</span>
+            <span class="thesis-badge secondary">📄 Published in Desalination &amp; Water Treatment</span>
+            <span class="thesis-badge tertiary">🏆 92% Filtration Efficiency</span>
+          </div>
+          <div class="thesis-title" data-en>Synthesis &amp; Characterization of TiO₂@SiO₂–CuS Supported Nanocomposite for Fabrication of a Cellulose Acetate Membrane</div>
+          <div class="thesis-title" data-de>Synthese &amp; Charakterisierung von TiO₂@SiO₂–CuS Nanokomposit zur Herstellung einer Celluloseacetat-Membran</div>
+          <p class="thesis-subtitle" data-en>Kongu Engineering College, Erode, India · Department of Chemical Engineering</p>
+          <p class="thesis-subtitle" data-de>Kongu Engineering College, Erode, Indien · Fachbereich Chemieingenieurwesen</p>
+        </div>
+
+        <div class="thesis-body">
+          <div class="thesis-overview" data-en>
+            This thesis addressed a critical global challenge: <strong>sustainable wastewater treatment</strong> through advanced membrane technology. The project involved the complete engineering cycle — from material synthesis and nanocomposite fabrication through to rigorous analytical characterisation and systematic process optimisation — resulting in a high-performance membrane that achieved <strong>92% contaminant filtration efficiency</strong>. The research was subsequently published in the peer-reviewed journal <em>Desalination and Water Treatment</em> (Elsevier), demonstrating its scientific rigour and real-world applicability.
+          </div>
+          <div class="thesis-overview" data-de>
+            Diese Arbeit befasste sich mit der nachhaltigen Abwasserbehandlung durch fortschrittliche Membrantechnologie. Das Projekt umfasste den vollständigen Ingenieurzyklus — von der Materialsynthese über die Nanokomposit-Herstellung bis zur analytischen Charakterisierung und systematischen Prozessoptimierung — mit einer Filtrationsmembran, die eine <strong>Effizienz von 92%</strong> erreichte. Die Forschung wurde in der begutachteten Zeitschrift <em>Desalination and Water Treatment</em> (Elsevier) veröffentlicht.
+          </div>
+
+          <div class="thesis-phases-title" data-en>Project Phases</div>
+          <div class="thesis-phases-title" data-de>Projektphasen</div>
+          <div class="thesis-phases">
+            <div class="phase-card">
+              <div class="phase-num">01</div>
+              <div class="phase-icon">🧫</div>
+              <div class="phase-label" data-en>Material Synthesis</div>
+              <div class="phase-label" data-de>Materialsynthese</div>
+              <div class="phase-desc" data-en>Designed and synthesised TiO₂@SiO₂–CuS nanocomposites at laboratory scale. Optimised sol-gel parameters, reaction conditions, precursor concentrations, and calcination protocols through iterative experimental cycles to achieve target particle morphology and crystallinity.</div>
+              <div class="phase-desc" data-de>Synthese von TiO₂@SiO₂–CuS Nanokompositen im Labormaßstab. Optimierung von Sol-Gel-Parametern, Reaktionsbedingungen und Kalzinierungsprotokollen durch iterative Versuchszyklen.</div>
+            </div>
+            <div class="phase-card">
+              <div class="phase-num">02</div>
+              <div class="phase-icon">🏗️</div>
+              <div class="phase-label" data-en>Membrane Fabrication</div>
+              <div class="phase-label" data-de>Membranherstellung</div>
+              <div class="phase-desc" data-en>Fabricated Polysulfone–Cellulose Acetate (CA) composite membranes via the phase inversion method. Systematically varied nanocomposite loading, casting thickness, and coagulation bath conditions to optimise membrane morphology, porosity, and hydrophilicity for maximum filtration performance.</div>
+              <div class="phase-desc" data-de>Herstellung von Polysulfon-Celluloseacetat-Kompositmembranen mittels Phaseninversionsverfahren. Systematische Variation von Nanokomposit-Beladung, Gießdicke und Koagulationsbedingungen.</div>
+            </div>
+            <div class="phase-card">
+              <div class="phase-num">03</div>
+              <div class="phase-icon">🔬</div>
+              <div class="phase-label" data-en>Analytical Characterisation</div>
+              <div class="phase-label" data-de>Analytische Charakterisierung</div>
+              <div class="phase-desc" data-en>Conducted comprehensive material characterisation using XRD (crystalline phase identification), SEM (morphology and cross-section imaging), FTIR (functional group analysis), and EDS (elemental composition mapping). Developed and validated chemical-physical analysis methods tailored to the nanocomposite system.</div>
+              <div class="phase-desc" data-de>Umfassende Materialcharakterisierung mittels XRD, SEM, FTIR und EDS. Entwicklung und Validierung chemisch-physikalischer Analysemethoden für das Nanokomposit-System.</div>
+            </div>
+            <div class="phase-card">
+              <div class="phase-num">04</div>
+              <div class="phase-icon">📈</div>
+              <div class="phase-label" data-en>Process Optimisation &amp; Testing</div>
+              <div class="phase-label" data-de>Prozessoptimierung &amp; Tests</div>
+              <div class="phase-desc" data-en>Executed systematic filtration performance tests including flux measurements, rejection rate calculations, and antifouling assessments. Applied statistical data evaluation (via OriginLab) to identify optimal process parameters and drive iterative improvements — achieving a final filtration efficiency of 92%.</div>
+              <div class="phase-desc" data-de>Systematische Filtrationsleistungstests inkl. Flussmessungen, Rückhaltequoten und Antifouling-Bewertungen. Statistische Datenauswertung zur Identifizierung optimaler Prozessparameter.</div>
+            </div>
+          </div>
+
+          <div class="thesis-methods-row">
+            <div class="method-box">
+              <div class="method-box-title" data-en>Characterisation Techniques</div>
+              <div class="method-box-title" data-de>Charakterisierungsmethoden</div>
+              <ul class="method-list">
+                <li data-en><strong>XRD</strong> — Crystalline structure analysis, phase identification, crystallite size determination via Scherrer equation</li>
+                <li data-de><strong>XRD</strong> — Kristallstrukturanalyse, Phasenidentifikation, Kristallitgrößenbestimmung</li>
+                <li data-en><strong>SEM</strong> — Surface morphology and cross-section imaging, pore size distribution analysis, particle size measurement</li>
+                <li data-de><strong>SEM</strong> — Oberflächenmorphologie, Querschnittsabbildung, Porengrößenverteilung</li>
+                <li data-en><strong>FTIR</strong> — Functional group identification, chemical bonding analysis, confirmation of surface modification</li>
+                <li data-de><strong>FTIR</strong> — Funktionsgruppenidentifikation, Analyse chemischer Bindungen</li>
+                <li data-en><strong>EDS</strong> — Elemental composition mapping, confirmation of nanocomposite integration within the polymer matrix</li>
+                <li data-de><strong>EDS</strong> — Elementzusammensetzungskartierung, Bestätigung der Nanokomposit-Integration</li>
+              </ul>
+            </div>
+            <div class="method-box">
+              <div class="method-box-title" data-en>Engineering Contributions</div>
+              <div class="method-box-title" data-de>Ingenieurtechnische Beiträge</div>
+              <ul class="method-list">
+                <li data-en>Developed novel chemical-physical analysis methods applicable to production quality control</li>
+                <li data-de>Entwicklung neuartiger chemisch-physikalischer Analysemethoden für die Produktionsqualitätskontrolle</li>
+                <li data-en>Designed full experimental workflow for nanocomposite synthesis and membrane fabrication</li>
+                <li data-de>Entwicklung des vollständigen experimentellen Workflows für Synthese und Membranherstellung</li>
+                <li data-en>Achieved 92% filtration efficiency through systematic multi-parameter optimisation</li>
+                <li data-de>92% Filtrationseffizienz durch systematische Mehrparameter-Optimierung erreicht</li>
+                <li data-en>Produced publication-quality results leading to a peer-reviewed journal paper (Elsevier)</li>
+                <li data-de>Publikationsreife Ergebnisse, die zu einem begutachteten Zeitschriftenartikel (Elsevier) führten</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="thesis-phases-title" data-en>Key Results</div>
+          <div class="thesis-phases-title" data-de>Wichtige Ergebnisse</div>
+          <div class="thesis-results">
+            <div class="result-card"><div class="result-value">92<span class="result-unit">%</span></div><div class="result-label" data-en>Filtration Efficiency Achieved</div><div class="result-label" data-de>Filtrationseffizienz erreicht</div></div>
+            <div class="result-card"><div class="result-value">4</div><div class="result-label" data-en>Characterisation Methods Deployed</div><div class="result-label" data-de>Analysemethoden eingesetzt</div></div>
+            <div class="result-card"><div class="result-value">1</div><div class="result-label" data-en>Elsevier Journal Publication</div><div class="result-label" data-de>Elsevier Publikation</div></div>
+            <div class="result-card"><div class="result-value">4</div><div class="result-label" data-en>Optimisation Phases Completed</div><div class="result-label" data-de>Optimierungsphasen abgeschlossen</div></div>
+          </div>
+
+          <div class="thesis-impact">
+            <div class="thesis-impact-title" data-en>Real-World Impact &amp; Relevance</div>
+            <div class="thesis-impact-title" data-de>Praxisrelevanz &amp; Bedeutung</div>
+            <p data-en>The membrane developed in this thesis addresses the growing global need for cost-effective, energy-efficient water purification technologies. The combination of <strong>TiO₂@SiO₂–CuS photocatalytic nanoparticles</strong> with a polysulfone–cellulose acetate matrix produces a membrane with enhanced antifouling properties, improved mechanical strength, and superior contaminant rejection compared to conventional membranes. The methodology developed — including the analysis methods and optimisation framework — is transferable to pharmaceutical filtration, food &amp; beverage processing, and industrial effluent treatment applications.</p>
+            <p data-de>Die entwickelte Membran adressiert den wachsenden globalen Bedarf an kostengünstigen, energieeffizienten Wasseraufbereitungstechnologien. Die Kombination aus photokatalytischen Nanopartikeln und dem Polysulfon-Celluloseacetat-Matrix erzeugt eine Membran mit verbesserten Antifouling-Eigenschaften. Die entwickelte Methodik ist auf pharmazeutische Filtration, Lebensmittelverarbeitung und industrielle Abwasserbehandlung übertragbar.</p>
+          </div>
+
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+            <a href="https://doi.org/10.1016/j.dwt.2024.100636" target="_blank" rel="noopener" class="btn-primary" style="font-size:13px;padding:10px 22px">
+              🔗 <span data-en>Open Published Paper</span><span data-de>Publikation öffnen</span>
+            </a>
+            <a href="https://doi.org/10.1016/j.dwt.2024.100636" target="_blank" rel="noopener" class="btn-outline" style="font-size:13px;padding:10px 22px">
+              📄 <span data-en>DOI: 10.1016/j.dwt.2024.100636</span><span data-de>DOI: 10.1016/j.dwt.2024.100636</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Publication standalone card -->
+    <div class="pub-card">
+      <div class="pub-label">📄 <span data-en>PEER-REVIEWED PUBLICATION · ELSEVIER</span><span data-de>BEGUTACHTETE PUBLIKATION · ELSEVIER</span></div>
+      <div class="pub-title">Fabrication of Polysulfone–Cellulose Acetate Based TiO₂@SiO₂–CuS and Fe₃O₄@XG Membrane and Its Application in Wastewater Treatment</div>
+      <div class="pub-journal">Desalination and Water Treatment, Vol. 320, Article 100636, October 2024</div>
+      <a href="https://doi.org/10.1016/j.dwt.2024.100636" target="_blank" rel="noopener" class="pub-doi-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span data-en>Open Paper · DOI: 10.1016/j.dwt.2024.100636</span>
+        <span data-de>Publikation öffnen · DOI: 10.1016/j.dwt.2024.100636</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner fade-in-section">
+    <p class="section-label" data-en>06 — Get In Touch</p><p class="section-label" data-de>06 — Kontakt aufnehmen</p>
+    <h2 class="section-title" data-en>Let\'s <span>Connect</span></h2><h2 class="section-title" data-de>Lass uns <span>verbinden</span></h2>
+    <div class="contact-grid">
+      <div>
+        <p class="contact-intro" data-en>I am actively seeking <strong>Internship</strong> or <strong>Working Student</strong> (20 hrs/week) opportunities in Process Engineering or Chemical Engineering across Germany. Open to relocation, available from <strong>July 2026</strong>.</p>
+        <p class="contact-intro" data-de>Ich suche aktiv nach einem <strong>Praktikum</strong> oder einer <strong>Werkstudentenstelle</strong> (20 Std./Woche) in Deutschland. Umzugsbereit, verfügbar ab <strong>Juli 2026</strong>.</p>
+        <div class="contact-links">
+          <a href="mailto:saifullayaseen@gmail.com" class="contact-link"><span class="contact-link-icon">✉️</span><div><div class="contact-link-text">saifullayaseen@gmail.com</div><div class="contact-link-sub">Email</div></div></a>
+          <a href="tel:+4915222352062" class="contact-link"><span class="contact-link-icon">📞</span><div><div class="contact-link-text">+49 15222352062</div><div class="contact-link-sub" data-en>Phone / WhatsApp</div><div class="contact-link-sub" data-de>Telefon / WhatsApp</div></div></a>
+          <a href="https://linkedin.com/in/saifullahyaseen/" target="_blank" rel="noopener" class="contact-link"><span class="contact-link-icon">💼</span><div><div class="contact-link-text">linkedin.com/in/saifullahyaseen</div><div class="contact-link-sub">LinkedIn</div></div></a>
+          <a href="https://doi.org/10.1016/j.dwt.2024.100636" target="_blank" rel="noopener" class="contact-link"><span class="contact-link-icon">📄</span><div><div class="contact-link-text" data-en>View Published Research Paper</div><div class="contact-link-text" data-de>Publikation ansehen</div><div class="contact-link-sub">DOI: 10.1016/j.dwt.2024.100636</div></div></a>
+        </div>
+      </div>
+      <div class="availability-box">
+        <div class="avail-title" data-en>Availability Overview</div><div class="avail-title" data-de>Verfügbarkeitsübersicht</div>
+        <div class="avail-item"><span class="avail-dot"></span><span data-en>🎯 Seeking: Internship or Working Student (20h/week)</span><span data-de>🎯 Suche: Praktikum oder Werkstudent (20h/Woche)</span></div>
+        <div class="avail-item"><span class="avail-dot"></span><span data-en>📅 Available from: July 2026</span><span data-de>📅 Verfügbar ab: Juli 2026</span></div>
+        <div class="avail-item"><span class="avail-dot"></span><span data-en>📍 Location: Offenburg, Germany</span><span data-de>📍 Standort: Offenburg, Deutschland</span></div>
+        <div class="avail-item"><span class="avail-dot"></span><span data-en>✈️ Open to relocation: All of Germany</span><span data-de>✈️ Umzugsbereit: Ganz Deutschland</span></div>
+        <div class="avail-item"><span class="avail-dot"></span><span data-en>🏭 Industries: Pharma, Chemical, Energy, Automotive, Food &amp; Beverage</span><span data-de>🏭 Branchen: Pharma, Chemie, Energie, Automobil, Lebensmittel</span></div>
+        <div class="avail-item"><span class="avail-dot"></span><span data-en>🔬 Focus: Process Design, Simulation, Lab &amp; Analytics</span><span data-de>🔬 Fokus: Prozessdesign, Simulation, Labor &amp; Analytik</span></div>
+        <div class="avail-item"><span class="avail-dot"></span><span data-en>💻 Master Thesis available after internship</span><span data-de>💻 Masterarbeit nach dem Praktikum möglich</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Yaseen Syed Ali, Saifullah Mundusreen · Process &amp; Chemical Engineer · Germany</p>
+  <p style="margin-top:8px;font-size:11px;opacity:.5" data-en>Open for Process Engineering &amp; Chemical Engineering opportunities across Germany</p>
+  <p style="margin-top:8px;font-size:11px;opacity:.5" data-de>Offen für Verfahrenstechnik &amp; Chemieingenieurwesen-Stellen in ganz Deutschland</p>
+</footer>
+
+<script>
+// Cursor
+const cursor=document.getElementById('cursor'),trail=document.getElementById('cursorTrail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+(function animTrail(){tx+=(mx-tx)*.12;ty+=(my-ty)*.12;trail.style.left=tx+'px';trail.style.top=ty+'px';requestAnimationFrame(animTrail)})();
+document.querySelectorAll('a,button,.skill-card,.tl-card,.phase-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2.5)';trail.style.opacity='.7'});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';trail.style.opacity='.4'});
+});
+
+// Language
+function setLang(lang){
+  document.body.classList.toggle('de',lang==='de');
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-de').classList.toggle('active',lang==='de');
+}
+
+// Section fade-in
+new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.08}).observe && document.querySelectorAll('.fade-in-section').forEach(el=>{
+  new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.08}).observe(el);
+});
+
+// Timeline stagger
+const tlItems=document.querySelectorAll('.timeline-item');
+const tlObs=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('tl-visible'),i*120);
+      tlObs.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+tlItems.forEach(el=>tlObs.observe(el));
+
+// Language bar animation
+const langObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.lang-bar').forEach(bar=>{
+        const w=bar.getAttribute('data-width');
+        setTimeout(()=>{bar.style.width=w+'%'},200);
+      });
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('#skills').forEach(el=>langObs.observe(el));
+
+// Counter animation
+function animCount(el,target,suffix=''){
+  let start=null;
+  function step(ts){
+    if(!start)start=ts;
+    const p=Math.min((ts-start)/1400,1);
+    const e=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(e*target)+suffix;
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const statObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.stat-number,.result-value').forEach(el=>{
+        const txt=el.textContent;
+        const num=parseInt(txt);
+        const sfx=txt.replace(/[0-9]/g,'');
+        if(!isNaN(num))animCount(el,num,sfx);
+      });
+      statObs.unobserve(e.target);
+    }
+  });
+},{threshold:.25});
+document.querySelectorAll('#about,#projects').forEach(el=>statObs.observe(el));
+
+// Phase card stagger on scroll
+const phaseObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.phase-card').forEach((c,i)=>{
+        c.style.opacity='0';c.style.transform='translateY(30px)';
+        setTimeout(()=>{c.style.transition='all .5s ease';c.style.opacity='1';c.style.transform='translateY(0)'},i*100);
+      });
+      phaseObs.unobserve(e.target);
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.thesis-phases').forEach(el=>phaseObs.observe(el));
+</script>
+</body>
+</html>'''
+
+with open('/home/claude/portfolio_v2.html', 'w', encoding='utf-8') as f:
+    f.write(HTML)
+print('Done. Size:', len(HTML)//1024, 'KB')
